@@ -9,9 +9,9 @@ describe('User visits root', () => {
   });
 
   describe('clicking on a link to navigate', () => {
-    it('navigate to create.html from root', () => {
+    it('to create.html from root', () => {
       browser.url('/');
-      browser.click('a[href="create.html"]');
+      browser.click('a[href="/items/create"]');
       assert.include(browser.getText('body'), 'Create');
     });
   });
