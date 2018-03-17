@@ -25,9 +25,18 @@
           <h2 class="form-title">Create</h2>
 
           <form class="input-form" action="/items/create" method="post" >
-            <input id="title-input" name="title" type="text">
-            <textarea id="description-input" name="description"></textarea>
-            <input id="imageUrl-input" name="imageUrl" type="text">
+            <input value="{{newItem.title}}" id="title-input" name="title" type="text">
+            {{#with newItem.errors.title as |error|}}
+              <span class="error">{{error.message}}</span>
+            {{/with}}
+            <textarea value="{{newItem.description}}" id="description-input" name="description"></textarea>
+            {{#with newItem.errors.description as |error|}}
+              <span class="error">{{error.message}}</span>
+            {{/with}}
+            <input value="{{newItem.imageUrl}}" id="imageUrl-input" name="imageUrl" type="text">
+            {{#with newItem.errors.imageUrl as |error|}}
+              <span class="error">{{error.message}}</span>
+            {{/with}}
             <button id="submit-button" type="submit">
               <p>button text</p>
             </button>

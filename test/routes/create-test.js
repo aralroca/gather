@@ -35,16 +35,74 @@ describe('Server path: /items/create', () => {
   });
 
   describe('POST', ()=> {
-    it('create a new item', async ()=> {
-      const {title, description, imageUrl} = buildItemObject();
+    it('create ans saves a new item', async ()=> {
+      const itemToCreate = buildItemObject();
       const response = await request(app)
         .post('/items/create')
         .type('form')
-        .send({title, description, imageUrl} );
+        .send(itemToCreate);
+      const createdItem = await Item.findOne(itemToCreate);
 
-      assert.include(parseTextFromHTML(response.text, '.item-title'), title);
-      const imageElement = findImageElementBySource(response.text, imageUrl);
-      assert.equal(imageElement.src, imageUrl);
+      assert.isOk(createdItem, 'Item was not created successfully in the database');
+    });
+
+    it('should redirect to home after the creation of a item', async () => {
+      const itemToCreate = buildItemObject();
+      const response = await request(app)
+        .post('/items/create')
+        .type('form')
+        .send(itemToCreate);
+      
+      assert.equal(response.status, 302);
+      assert.equal(response.headers.location, '/');
+    });
+
+    it('request with no title should display an error message', async () => {
+      const itemToCreate = buildItemObject();
+      
+      itemToCreate.title = null;
+      const response = await request(app)
+        .post('/items/create')
+        .type('form')
+        .send(itemToCreate);
+      
+      const items = await Item.find({});
+
+      assert.equal(items.length, 0);
+      assert.equal(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
+    });
+
+    it('request with no description should display an error message', async () => {
+      const itemToCreate = buildItemObject();
+      
+      itemToCreate.description = null;
+      const response = await request(app)
+        .post('/items/create')
+        .type('form')
+        .send(itemToCreate);
+      
+      const items = await Item.find({});
+
+      assert.equal(items.length, 0);
+      assert.equal(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
+    });
+
+    it('request with no imageUrl should display an error message', async () => {
+      const itemToCreate = buildItemObject();
+      
+      itemToCreate.imageUrl = null;
+      const response = await request(app)
+        .post('/items/create')
+        .type('form')
+        .send(itemToCreate);
+      
+      const items = await Item.find({});
+
+      assert.equal(items.length, 0);
+      assert.equal(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
     });
   });
 });

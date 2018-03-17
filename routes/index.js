@@ -11,9 +11,18 @@ router.get('/items/create', (req, res, next) => {
   res.render('create');
 });
 
-router.post('/items/create',  (req, res, next) => {
-  const items = [req.body];
-  res.render('index', { items });
+router.post('/items/create', async (req, res, next) => {
+  const { title, description, imageUrl } = req.body;
+  const newItem = new Item({ title, description, imageUrl });
+
+  newItem.validateSync();
+
+  if(newItem.errors) {
+    res.status(400).render('create', {newItem});
+  } else {
+    await newItem.save();
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
