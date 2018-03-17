@@ -2,22 +2,9 @@ const {assert} = require('chai');
 const {buildItemObject} = require('../test-utils');
 
 describe('User visits the create page', () => {
-  describe('posts a new item', () => {
-    it('is rendered', () => {
-      const {title, description, imageUrl} = buildItemObject();
-      browser.url('/items/create');
-
-      browser.setValue('#title-input', title);
-      browser.setValue('#description-input', description);
-      browser.setValue('#imageUrl-input', imageUrl);
-      browser.click('#submit-button');
-
-      assert.include(browser.getText('body'), title);
-      assert.include(browser.getAttribute('body img', 'src'), imageUrl);
-    });
-
+  describe('before post', () => {
     it('button should contain the text "Add new item"', () => {
-      const expectedText = 'Add new item'
+      const expectedText = 'Add new item';
       browser.url('/items/create');
       assert.include(browser.getText('#submit-button'), expectedText);
     });
@@ -41,6 +28,21 @@ describe('User visits the create page', () => {
         browser.getAttribute('#imageUrl-input', 'placeholder'), 
         imageUrlPlaceholder
       );
+    });
+  });
+
+  describe('posts a new item', () => {
+    it('is rendered', () => {
+      const {title, description, imageUrl} = buildItemObject();
+      browser.url('/items/create');
+
+      browser.setValue('#title-input', title);
+      browser.setValue('#description-input', description);
+      browser.setValue('#imageUrl-input', imageUrl);
+      browser.click('#submit-button');
+
+      assert.include(browser.getText('body'), title);
+      assert.include(browser.getAttribute('body img', 'src'), imageUrl);
     });
   });
 });

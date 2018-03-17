@@ -1,0 +1,51 @@
+<div class="create-container">
+  <div class="create-card">
+    <div class="create-column">
+      <img id="created-image" src="{{value.imageUrl}}" />
+    </div>
+    <div class="divider">
+    </div>
+    <div class="create-column">
+        <h2 class="form-title">Update item</h2>
+        <form class="input-form" action="/items/id/update" method="post" >
+          <label class="form-label" for="title">Title</label>
+          <input 
+            value="{{item.title}}" 
+            id="title-input" 
+            name="title" 
+            type="text"
+            maxlength="50" 
+            placeholder="Write a title"
+          />
+        
+          <label class="form-label" for="description">Description</label>
+          <textarea id="description-input" name="description" placeholder="Write a description">{{item.description}}</textarea>
+        
+          <label class="form-label" for="imageUrl">Image Url</label>
+          <input 
+            value="{{item.imageUrl}}"
+            id="imageUrl-input" 
+            name="imageUrl" 
+            type="text"
+            oninput="handleChange" 
+           />
+        
+          <div class="form-navigation">
+            <a href="/">
+                <img class="back-arrow" src="/img/back.svg" alt="back">
+            </a>
+            <button class="button submit-button" id="submit-button" type="submit">
+                <p>Update</p>
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script>
+  var img = document.getElementById('created-image');
+  function handleChange(e) {
+    img.src = e.target.value;
+  }
+  document.getElementById('imageUrl-input').oninput = handleChange;
+</script>

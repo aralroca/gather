@@ -37,9 +37,16 @@ router.get('/items/:itemId', async (req, res, next) => {
 
 router.post('/items/:itemId/delete', async (req, res, next) => {
   await Item.remove({ _id: req.params.itemId });
-  
-  const items = await Item.find({});
-  res.render('index', {items});
+  res.redirect('/');
+});
+
+router.get('/items/:itemId/update', async (req, res, next) => {
+  try {
+    const item = await Item.findOne({ _id: req.params.itemId });
+    res.render('update', {item});
+  } catch(e){
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
