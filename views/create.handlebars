@@ -1,56 +1,68 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>gather</title>
-    <link rel="icon" type="image/ico" href="img/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
-    <link rel='stylesheet' href='stylesheets/reset.css' />
-    <link rel='stylesheet' href='stylesheets/style.css' />
-  </head>
-  <body>
-    <div id="title-container">
-      <a href="/">
-        <img src="img/logo.svg" alt="logo" />
-        <div id="title">gather</div>
-      </a>
+<div class="create-container">
+  <div class="create-card">
+    <div class="create-column">
+      <img id="created-image" src="" />
     </div>
-    <div class="create-container">
-      <div class="create-card">
-        <div class="create-column">
-          <img id="created-image" src="" />
-        </div>
-        <div class="divider">
-        </div>
-        <div class="create-column">
-          <h2 class="form-title">Create</h2>
+    <div class="divider">
+    </div>
+    <div class="create-column">
+      <h2 class="form-title">
+        <img alt="Add new item" src="/img/add.svg" />
+        Create item
+      </h2>
 
-          <form class="input-form" action="/items/create" method="post" >
-            <input value="{{newItem.title}}" id="title-input" name="title" type="text">
-            {{#with newItem.errors.title as |error|}}
-              <span class="error">{{error.message}}</span>
-            {{/with}}
-            <textarea value="{{newItem.description}}" id="description-input" name="description"></textarea>
-            {{#with newItem.errors.description as |error|}}
-              <span class="error">{{error.message}}</span>
-            {{/with}}
-            <input value="{{newItem.imageUrl}}" id="imageUrl-input" name="imageUrl" type="text">
-            {{#with newItem.errors.imageUrl as |error|}}
-              <span class="error">{{error.message}}</span>
-            {{/with}}
-            <button id="submit-button" type="submit">
-              <p>button text</p>
-            </button>
-          </form>
+      <form class="input-form" action="/items/create" method="post" >
+        <label for="title-input" class="form-label">Title</label>
+        <input 
+            value="{{newItem.title}}" 
+            id="title-input"
+            name="title"
+            type="text"
+            placeholder="Write a title"
+        >
+        {{#with newItem.errors.title as |error|}}
+          <span class="error">{{error.message}}</span>
+        {{/with}}
+        <label for="description-input" class="form-label">Description</label>
+        <textarea 
+          value="{{newItem.description}}"
+          id="description-input"
+          name="description"
+          placeholder="Write a description"
+        ></textarea>
+        {{#with newItem.errors.description as |error|}}
+          <span class="error">{{error.message}}</span>
+        {{/with}}
+        <label for="imageUrl-input" class="form-label">Image url</label>
+        <input 
+          value="{{newItem.imageUrl}}" 
+          id="imageUrl-input" 
+          name="imageUrl"
+          type="text"
+          placeholder="Write an image url"
+        >
+        {{#with newItem.errors.imageUrl as |error|}}
+          <span class="error">{{error.message}}</span>
+        {{/with}}
+
+         <div class="form-navigation">
+          <a href="/">
+            <img class="back-arrow" src="/img/back.svg" alt="back">
+            Come back
+          </a>   
+          <button id="submit-button" class="submit-button" type="submit">
+            <p>Add new item</p>
+          </button>
         </div>
-      </div>
+      </form>
     </div>
-    <script>
-      var img = document.getElementById('created-image');
-      function handleChange(e) {
-        var path = e.target.value.match(/^(https*:\/\/)/i) ? '' : 'http://';
-        img.src = path + e.target.value;
-      }
-      document.getElementById('imageUrl-input').oninput = handleChange;
-    </script>
-  </body>
-</html>
+  </div>
+</div>
+<script>
+  var img = document.getElementById('created-image');
+  function handleChange(e) {
+    var path = e.target.value.match(/^(https*:\/\/)/i) ? '' : 'http://';
+    img.src = path + e.target.value;
+  }
+  document.getElementById('imageUrl-input').oninput = handleChange;
+</script>

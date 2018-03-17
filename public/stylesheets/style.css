@@ -405,7 +405,7 @@ input, textarea {
 }
 
 .submit-button {
-  /* width: 124px; */
+  margin-top: 10px;
   height: 38px;
   border: none;
   border-radius: 0;

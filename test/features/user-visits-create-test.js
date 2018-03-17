@@ -15,5 +15,32 @@ describe('User visits the create page', () => {
       assert.include(browser.getText('body'), title);
       assert.include(browser.getAttribute('body img', 'src'), imageUrl);
     });
+
+    it('button should contain the text "Add new item"', () => {
+      const expectedText = 'Add new item'
+      browser.url('/items/create');
+      assert.include(browser.getText('#submit-button'), expectedText);
+    });
+
+    it('placeholders should be rendered', () => {
+      const titlePlaceholder = 'Write a title';
+      const descriptionPlaceholder = 'Write a description';
+      const imageUrlPlaceholder = 'Write an image url';
+
+      browser.url('/items/create');
+
+      assert.include(
+        browser.getAttribute('#title-input', 'placeholder'),
+        titlePlaceholder
+      );
+      assert.include(
+        browser.getAttribute('#description-input', 'placeholder'), 
+        descriptionPlaceholder
+      );
+      assert.include(
+        browser.getAttribute('#imageUrl-input', 'placeholder'), 
+        imageUrlPlaceholder
+      );
+    });
   });
 });
