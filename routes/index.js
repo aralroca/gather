@@ -36,8 +36,12 @@ router.get('/items/:itemId', async (req, res, next) => {
 });
 
 router.post('/items/:itemId/delete', async (req, res, next) => {
-  await Item.remove({ _id: req.params.itemId });
-  res.redirect('/');
+  try {
+    await Item.findByIdAndRemove(req.params.itemId);
+  } catch(e){}
+  finally{
+    res.redirect('/');
+  }
 });
 
 router.get('/items/:itemId/update', async (req, res, next) => {
@@ -46,6 +50,28 @@ router.get('/items/:itemId/update', async (req, res, next) => {
     res.render('update', {item});
   } catch(e){
     res.redirect('/');
+  }
+});
+
+router.post('/items/:itemId/update', (req, res, next) => {
+  const { title, description, imageUrl } = req.body;
+  const item = new Item({ title, description, imageUrl });
+
+  item.validateSync();
+
+  if(item.errors) {
+    res.status(400).render('update', {item});
+  } else {
+    Item.findOneAndUpdate(
+      { _id: req.params.itemId }, 
+      { title, description, imageUrl },
+      {upsert: true}, (err, doc) => {
+      if(err) {
+        res.status(400).render('update', {item: doc});
+      } else {
+        res.redirect('/');
+      }
+    });
   }
 });
 

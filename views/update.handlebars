@@ -1,13 +1,13 @@
 <div class="create-container">
   <div class="create-card">
     <div class="create-column">
-      <img id="created-image" src="{{value.imageUrl}}" />
+      <img id="created-image" src="{{item.imageUrl}}" />
     </div>
     <div class="divider">
     </div>
     <div class="create-column">
         <h2 class="form-title">Update item</h2>
-        <form class="input-form" action="/items/id/update" method="post" >
+        <form class="input-form" action="/items/{{item._id}}/update" method="post" >
           <label class="form-label" for="title">Title</label>
           <input 
             value="{{item.title}}" 
@@ -17,10 +17,14 @@
             maxlength="50" 
             placeholder="Write a title"
           />
-        
+         {{#with item.errors.title as |error|}}
+          <span class="error">{{error.message}}</span>
+         {{/with}}
           <label class="form-label" for="description">Description</label>
           <textarea id="description-input" name="description" placeholder="Write a description">{{item.description}}</textarea>
-        
+         {{#with item.errors.description as |error|}}
+          <span class="error">{{error.message}}</span>
+         {{/with}}
           <label class="form-label" for="imageUrl">Image Url</label>
           <input 
             value="{{item.imageUrl}}"
@@ -28,8 +32,11 @@
             name="imageUrl" 
             type="text"
             oninput="handleChange" 
+            placeholder="Write an image url"
            />
-        
+         {{#with item.errors.imageUrl as |error|}}
+          <span class="error">{{error.message}}</span>
+         {{/with}}
           <div class="form-navigation">
             <a href="/">
                 <img class="back-arrow" src="/img/back.svg" alt="back">

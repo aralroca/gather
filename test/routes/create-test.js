@@ -36,7 +36,6 @@ describe('Server path: /items/create', () => {
 
   describe('POST', ()=> {
     it('create ans saves a new item', async ()=> {
-      const itemToCreate = buildItemObject();
       const response = await request(app)
         .post('/items/create')
         .type('form')
@@ -47,7 +46,6 @@ describe('Server path: /items/create', () => {
     });
 
     it('should redirect to home after the creation of a item', async () => {
-      const itemToCreate = buildItemObject();
       const response = await request(app)
         .post('/items/create')
         .type('form')
@@ -57,9 +55,7 @@ describe('Server path: /items/create', () => {
       assert.equal(response.headers.location, '/');
     });
 
-    it('request with no title should display an error message', async () => {
-      const itemToCreate = buildItemObject();
-      
+    it('request with no title should display an error message', async () => {      
       itemToCreate.title = null;
       const response = await request(app)
         .post('/items/create')
@@ -73,9 +69,7 @@ describe('Server path: /items/create', () => {
       assert.include(parseTextFromHTML(response.text, 'form'), 'required');
     });
 
-    it('request with no description should display an error message', async () => {
-      const itemToCreate = buildItemObject();
-      
+    it('request with no description should display an error message', async () => {      
       itemToCreate.description = null;
       const response = await request(app)
         .post('/items/create')
@@ -89,10 +83,8 @@ describe('Server path: /items/create', () => {
       assert.include(parseTextFromHTML(response.text, 'form'), 'required');
     });
 
-    it('request with no imageUrl should display an error message', async () => {
-      const itemToCreate = buildItemObject();
-      
-      itemToCreate.imageUrl = null;
+    it('request with no title should display an error message', async () => {      
+      itemToCreate.title = null;
       const response = await request(app)
         .post('/items/create')
         .type('form')

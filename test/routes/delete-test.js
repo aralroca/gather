@@ -14,10 +14,37 @@ describe('Server path: /items/:id/delete', () => {
   describe('POST', () => {
     it('Should remove the item by :id', async () => {
       const item = await seedItemToDatabase();
+
+      await request(app).post(`/items/${item._id}/delete`);
+      const response = await request(app).get('/');
+      
+      assert.notInclude(response.text, `item-${item._id}`);
+    }); 
+    
+    it('Should not remove the item if is different :id', async () => {
+      const item = await seedItemToDatabase();
+ 
+      await request(app).post('/items/_incorrectId_/delete');
+      const response = await request(app).get('/');
+      
+      assert.include(response.text, `item-${item._id}`);
+    });  
+
+    it('Should redirect to home after removing', async () => {
+      const item = await seedItemToDatabase();
       const response = await request(app)
       .post(`/items/${item._id}/delete`);
       
-      assert.notInclude(parseTextFromHTML(response.text, 'body'), `#item-${item._id}`);
-    });  
+      assert.equal(response.status, 302);
+      assert.equal(response.headers.location, '/');
+    });
+    
+    it('Should redirect to home if not remove any item', async () => {
+      const response = await request(app)
+      .post(`/items/_incorrectId_/delete`);
+      
+      assert.equal(response.status, 302);
+      assert.equal(response.headers.location, '/');
+    }); 
   });
 });

@@ -9,6 +9,15 @@ describe('User visits the create page', () => {
       assert.include(browser.getText('#submit-button'), expectedText);
     });
 
+    it('title input should have a maxlength of 50', () => {
+      const maxlength = 50;
+      browser.url('/items/create');
+      assert.equal(
+        browser.getAttribute('#title-input', 'maxlength'),
+        maxlength
+      );
+    });
+
     it('placeholders should be rendered', () => {
       const titlePlaceholder = 'Write a title';
       const descriptionPlaceholder = 'Write a description';

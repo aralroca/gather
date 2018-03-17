@@ -384,6 +384,7 @@ input, textarea {
   background-color: #eeeeee;
   border: solid 1px #dddddd;
   width: 100%;
+  padding: 5px;
   color: #7a797a;
   resize: none;
   overflow: auto;
@@ -473,4 +474,10 @@ input, textarea {
 
 .button:hover {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.error {
+  padding: 5px;
+  color: #F44336;
+  font-style: italic;
 }
